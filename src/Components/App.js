@@ -1,21 +1,10 @@
-import React, {Component} from 'react'
+import React from 'react'
+//import cyrpto from 'cyrpto-js'
 import '../Style/App.css'
 
 import RecipeList from './RecipeList'
 
-const unitTypes = {
-  'NONE': 'None',
-  'CUP': 'Cup',
-  'OZ': 'Ounce',
-  'TBS': 'Tablespoon',
-  'TS': 'Teaspoon',
-  'GALLON': 'Gallon',
-  'LITER': 'Liter',
-  'GRAM': 'Gram',
-  'PINCH': 'Pinch'
-}
-
-export default class App extends Component {
+export default class App extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -23,8 +12,8 @@ export default class App extends Component {
       recipes: [
         {
           name: 'Pie',
-          prepTimeMinutes: '40',
-          instructions: 'Make a pie. It is easy!',
+          prepTimeMinutes: 40,
+          instructions: 'Make a pie. It is so easy!',
           ingredients: [
             {
               name: 'flower',
@@ -41,17 +30,21 @@ export default class App extends Component {
     }
   }
 
-  updateRecipe(index, updatedRecipe){
-    const updatedRecipes = this.state.recipes
-    updatedRecipes[index] = updatedRecipe
+  handleUpdateRecipes(updatedRecipes) {
+    this.setState({recipes: updatedRecipes})
+  }
+
+  encryptRecipeList(password) {
     this.setState({
-      recipes: updatedRecipes
+      encrypted: true,
+      recipes: crypto.encrypt(JSON.stringify(this.state.recipes), password)
     })
   }
 
-  addRecipe(recipe){
+  decryptRecipeList(password) {
     this.setState({
-      recipes: this.state.recipes.push(recipe)
+      encrypted: false,
+      recipes: JSON.parse(crypto.decrypt(this.state.recipes, password))
     })
   }
 
@@ -60,19 +53,17 @@ export default class App extends Component {
       <div className="App">
         <header>Header</header>
 
-        <RecipeList className="RecipeList"/>
+        <RecipeList className="RecipeList" recipes={this.state.recipes} onUpdateRecipes={this.handleUpdateRecipes}/>
 
-        <div className="Crypto">
+        <div className="Crypto hidden">
           <div className="Encrypt">
-            if recipe-box exists and unencrypted
-            <div className="btnEncryptRecipeList"></div>
-            <div className="inputPassword">Pass1</div>
-            <div className="inputPassword">Pass2</div>
+            <button className="btn encryptRecipeList">Encrypt</button>
+            <input type="text" className="pass" placeholder="enter encryption password"/>
+            <input type="text" className="pass" placeholder="re-enter password"/>
           </div>
-          <div className="Decrypt hidden">
-            if recipe-box in localstorage and encrypted
-            <div className="btnDecryptRecipeList"></div>
-            <div className="inputPassword">Pass1</div>
+          <div className="Decrypt">
+            <button className="btn decryptRecipeList">Decrypt</button>
+            <input type="text" className="inputPassword" placeholder="enter password to decrypt..."/>
           </div>
         </div>
         <footer>Footer</footer>

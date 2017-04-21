@@ -13,3 +13,13 @@ header {
 footer {
   font-size: 1.5em;
 }
+
+.hidden {
+  height: 0;
+  width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  visibility: hidden;
+  overflow: hidden;
+}
