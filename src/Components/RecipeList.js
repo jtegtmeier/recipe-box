@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {uniqueId} from 'lodash'
 import Recipe from './Recipe'
 
 class RecipeList extends React.Component {
@@ -7,10 +8,7 @@ class RecipeList extends React.Component {
     super(props)
 
     this.state = {
-      recipes: this.props.recipes.map((recipe) => {
-        recipe.isEditing = false
-        return recipe
-      })
+      recipes: this.props.recipes
     }
 
     this.handleUpdateRecipe = this.handleUpdateRecipe.bind(this);
@@ -18,38 +16,40 @@ class RecipeList extends React.Component {
     this.handleDeleteRecipe = this.handleDeleteRecipe.bind(this);
   }
 
-  handleUpdateRecipe(updatedRecipe) {
-    let updatedRecipes = this.state.recipes.filter((i) => {
-      return i.name !== updatedRecipe.name
-    })
-    updatedRecipes.push(updatedRecipe)
+  handleUpdateRecipe(updatedRecipe){
     this.setState({
-      recipes: updatedRecipes
+      recipes: this.state.recipes.map((recipe) =>
+        recipe.id === updatedRecipe.id ? updatedRecipe : recipe
+      )
     })
   }
 
   addRecipeClicked() {
     const newRecipe = {
+      id: uniqueId('recipe-'),
       name: 'New Recipe',
       ingredients: [],
       isEditing: true
     }
-    this.handleUpdateRecipe(newRecipe)
+    this.setState({
+      recipes: [...this.state.recipes, newRecipe]
+    })
   }
 
   handleDeleteRecipe(recipe) {
     this.setState({
       recipes: this.state.recipes.filter((i) => {
-        return i.name !== recipe.name
+        return i.id !== recipe.id
       })
     })
   }
 
   render() {
     let recipes = []
-    this.state.recipes.forEach((recipe, index) => {
+    this.state.recipes.forEach((recipe) => {
       recipes.push(<Recipe className="Recipe"
-      key={index}
+      key={recipe.id}
+      id={recipe.id}
       name={recipe.name}
       prepTimeMinutes={recipe.prepTimeMinutes}
       instructions={recipe.instructions}

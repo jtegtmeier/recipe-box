@@ -14,12 +14,11 @@ footer {
   font-size: 1.5em;
 }
 
-.hidden {
-  height: 0;
-  width: 0;
-  margin: 0;
-  padding: 0;
+.viewonly input, .viewonly select {
   border: none;
-  visibility: hidden;
-  overflow: hidden;
+  appearance: none;
+}
+
+input:disabled {
+  background: none;
 }

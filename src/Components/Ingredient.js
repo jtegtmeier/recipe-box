@@ -18,15 +18,16 @@ class Ingredient extends React.Component {
     super(props)
 
     this.deleteIngredientClicked = this.deleteIngredientClicked.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleIngredientChanged = this.handleIngredientChanged.bind(this);
   }
 
   deleteIngredientClicked(){
-    this.props.onDeleteIngredient(this.props.name)
+    this.props.onDeleteIngredient(this.props)
   }
 
-  handleChange(evt){
-    this.props.onUpdate()
+  handleIngredientChanged(evt){
+    evt.preventDefault()
+    this.props.onUpdate(this.props.id, evt)
   }
 
   render() {
@@ -41,14 +42,20 @@ class Ingredient extends React.Component {
         <input type="text"
           className="ingredientName"
           value={this.props.name}
-          onChange={this.handleChange}/>
+          name="name"
+          {...(this.props.isEditing ? {} : {disabled: "disabled"})}
+          onChange={this.handleIngredientChanged}/>
         <input type="text"
           className="ingredientValue"
           value={this.props.amount}
-          onChange={this.handleChange}/>
+          name="amount"
+          {...(this.props.isEditing ? {} : {disabled: "disabled"})}
+          onChange={this.handleIngredientChanged}/>
         <select className="ingredientUnitType"
           value={this.props.unit}
-          onChange={this.handleChange}>
+          name="unit"
+          {...(this.props.isEditing ? {} : {disabled: "disabled"})}
+          onChange={this.handleIngredientChanged}>
           {options}
         </select>
         <button className="btn deleteIngredient" onClick={this.deleteIngredientClicked}>Delete Ingredient</button>
@@ -58,6 +65,7 @@ class Ingredient extends React.Component {
 }
 
 Ingredient.propTypes = {
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   amount: PropTypes.number.isRequired,
   unit: PropTypes.string,

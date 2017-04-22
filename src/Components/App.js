@@ -11,15 +11,18 @@ export default class App extends React.Component {
       encrypted: false,
       recipes: [
         {
+          id: 'testid-1',
           name: 'Pie',
           prepTimeMinutes: 40,
           instructions: 'Make a pie. It is so easy!',
           ingredients: [
             {
+              id: 'testid-2',
               name: 'flower',
               amount: 2,
               unit: 'CUP'
             }, {
+              id: 'testid-3',
               name: 'apple',
               amount: 5,
               unit: 'NONE'

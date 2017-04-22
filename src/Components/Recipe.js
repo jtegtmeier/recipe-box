@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {uniqueId} from 'lodash'
 import Ingredient from './Ingredient'
 
 class Recipe extends React.Component {
@@ -7,24 +8,26 @@ class Recipe extends React.Component {
     super(props)
 
     this.state = {
+      id: this.props.id,
       name: this.props.name,
       prepTimeMinutes: this.props.prepTimeMinutes,
       instructions: this.props.instructions,
       ingredients: this.props.ingredients,
-      isEditing: false
+      isEditing: this.props.isEditing
     }
 
     this.editRecipeClicked = this.editRecipeClicked.bind(this);
     this.submitRecipeClicked = this.submitRecipeClicked.bind(this);
     this.deleteRecipeClicked = this.deleteRecipeClicked.bind(this);
     this.addIngredientClicked = this.addIngredientClicked.bind(this);
-    this.handleIngredientsUpdated = this.handleIngredientsUpdated.bind(this);
+    this.handleRecipeInputChanged = this.handleRecipeInputChanged.bind(this);
+    this.handleIngredientUpdated = this.handleIngredientUpdated.bind(this);
     this.handleDeleteIngredient = this.handleDeleteIngredient.bind(this);
   }
 
   editRecipeClicked(){
     this.setState({
-      isEditing: true
+      isEditing: true,
     })
   }
 
@@ -41,6 +44,7 @@ class Recipe extends React.Component {
 
   addIngredientClicked(){
     const newIngredient = {
+      id: uniqueId('ingredient-'),
       name: 'New Ingredient',
       amount: 0,
       unit: 'NONE'
@@ -50,69 +54,100 @@ class Recipe extends React.Component {
     })
   }
 
-  handleIngredientChanged(){
-    
-  }
+  handleIngredientUpdated(updatedId, evt) {
+  this.setState({
+    ingredients: this.state.ingredients.map((ingredient) => {
+      if (ingredient.id === updatedId)
+        return {
+          ...ingredient,
+          [evt.target.name]: evt.target.value
+        }
+      return ingredient
+    })
+  })
+}
 
-  handleIngredientsUpdated(updatedIngredients){
+  handleRecipeInputChanged(evt){
+    evt.preventDefault()
     this.setState({
-      ingredients: updatedIngredients
+      [evt.target.name]: evt.target.value
     })
   }
 
   handleDeleteIngredient(ingredient){
     this.setState({
       ingredients: this.state.ingredients.filter((i) => {
-        return i.name !== ingredient
+        return i.id !== ingredient.id
       })
     })
   }
 
   render() {
-    let ingredients = []
-    this.state.ingredients.forEach((ingredient, index) => {
-      ingredients.push(<Ingredient
+    const Ingredients = this.state.ingredients.map((ingredient) =>
+      <Ingredient
         className="Ingredient"
-        key={index}
+        key={ingredient.id}
+        id={ingredient.id}
         name={ingredient.name}
         amount={ingredient.amount}
         unit={ingredient.unit}
-        onUpdate={this.handleIngredientChanged}
+        onUpdate={this.handleIngredientUpdated}
         onDeleteIngredient={this.handleDeleteIngredient}
         isEditing={this.state.isEditing}
-      />)
-    })
+      />
+    )
 
     return (
-      <div>
-        <div className="recipeName">{this.state.name}</div>
+      <div className={(this.state.isEditing ? "" : "viewonly")}>
+        <div className="recipeName">
+          <input
+            type="text"
+            name="name"
+            className="recipeInput"
+            placeholder="enter minutes for prep..."
+            value={this.state.name}
+            {...(this.state.isEditing ? {} : {disabled: "disabled"})}
+            onChange={this.handleRecipeInputChanged} />
+        </div>
         <div>
           <h4>Prep-time</h4>
           <input
             type="text"
-            className={"recipeText " + (this.state.isEditing ? "" : "viewonly")}
+            name="prepTimeMinutes"
+            className="recipeInput"
             placeholder="enter minutes for prep..."
-            value={this.state.prepTimeMinutes} />
+            value={this.state.prepTimeMinutes}
+            {...(this.state.isEditing ? {} : {disabled: "disabled"})}
+            onChange={this.handleRecipeInputChanged} />
         </div>
         <div>
           <h4>Instructions</h4>
           <input
             type="text"
-            className={"recipeText " + (this.state.isEditing ? "" : "viewonly")}
+            name="instructions"
+            className="recipeInput"
             placeholder="enter instructions..."
-            value={this.state.instructions} />
+            value={this.state.instructions}
+            {...(this.state.isEditing ? {} : {disabled: "disabled"})}
+            onChange={this.handleRecipeInputChanged} />
         </div>
         <div>
           <h4>Ingredients</h4>
-          {ingredients}
+          {Ingredients}
           <button className="btn addIngredient"
             onClick={this.addIngredientClicked}>Add Ingredient
           </button>
         </div>
-        <button className={"btn editRecipe " + (this.state.isEditing ? "hidden" : "")}
-          onClick={this.editRecipeClicked}>Edit Recipe</button>
-        <button className={"btn submitRecipe " + (this.state.isEditing ? "" : "hidden")}
-          onClick={this.submitRecipeClicked}>Submit Recipe</button>
+        <button className="btn editRecipe"
+          onClick={this.editRecipeClicked}
+          {...(this.state.isEditing ? {hidden: true} : {hidden: false})}>
+          Edit Recipe
+        </button>
+        <button className="btn submitRecipe"
+          onClick={this.submitRecipeClicked}
+          {...(this.state.isEditing ? {hidden: false} : {hidden: true})}>
+          Submit Recipe
+        </button>
         <button className="btn deleteRecipe"
           onClick={this.deleteRecipeClicked}>Delete Recipe</button>
       </div>
@@ -121,6 +156,7 @@ class Recipe extends React.Component {
 }
 
 Recipe.propTypes = {
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   prepTimeMinutes: PropTypes.number,
   instructions: PropTypes.string,
