@@ -19,14 +19,6 @@ export default class App extends React.Component {
       luminosity: 'bright',
       seed: 15
       })
-    console.log(this.headerColors)
-    this.headerColorText = this.headerColors.map((v,i)=>{
-      return (
-        <span key={i} style={{color: v}}>
-          {this.headerText[i]}
-        </span>
-      )
-    })
   }
 
   encryptRecipeBook(password) {
@@ -44,7 +36,14 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(this.headerColorText)
+    this.headerColorText = this.headerColors.map((v,i)=>{
+      return (
+        <span key={i} style={{color: v}}>
+          {this.headerText[i]}
+        </span>
+      )
+    })
+
     return (
       <div className="App">
         <header>{this.headerColorText}</header>
@@ -65,7 +64,10 @@ export default class App extends React.Component {
             <input type="text" className="inputPassword" placeholder="enter password to decrypt..."/>
           </div>
         </div>
-        <footer>By: Jacob Tegtmeier</footer>
+        <footer>
+          <div style={{fontSize: "0.8em"}}>Recipies Stored in Browser untill you clear site history.</div>
+          By: Jacob Tegtmeier
+        </footer>
       </div>
     )
   }
