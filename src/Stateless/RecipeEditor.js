@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {uniqueId} from 'lodash'
-import Ingredient from './Ingredient'
+import IngredientEditor from './IngredientEditor'
 import '../Style/RecipeBook.css'
 
 /*
@@ -31,7 +30,7 @@ const RecipeEditor = (props) => {
   function updateIngredients(updatedIngredients) {
     props.onRecipeUpdated(props.id, {
       ...recipeBody,
-      ingredients: updatedIngredients
+      ingredients: updatedIngredients,
     })
   }
 
@@ -41,13 +40,19 @@ const RecipeEditor = (props) => {
       ...recipeBody.ingredients,
       [ingredientId]: updatedIngredient
     })
-
   }
 
   //send new emptey ingredient id to ingredientChanged
   function addIngredient(evt){
     evt.preventDefault()
-    ingredientChanged(uniqueId('ingredient-'))
+    props.onRecipeUpdated(props.id, {
+      ...recipeBody,
+      uniqueIngredient: recipeBody.uniqueIngredient + 1,
+      ingredients: {
+        ...recipeBody.ingredients,
+        ['ingredient-' + recipeBody.uniqueIngredient]: undefined
+      },
+    })
   }
 
   //delete the ingredient and send the updated ingredients to updateIngredients
@@ -86,7 +91,7 @@ const RecipeEditor = (props) => {
   let ingredients = []
   for(const ingredient in recipeBody.ingredients){
     ingredients.push(
-      <Ingredient
+      <IngredientEditor
         id={ingredient}
         key={ingredient}
         ingredientBody={recipeBody.ingredients[ingredient]}
@@ -106,6 +111,8 @@ const RecipeEditor = (props) => {
           name="name"
           required="required"
           pattern=".*\w+.*"
+          autoFocus="autoFocus"
+          tabIndex="1"
           className="recipeInput recipeName"
           size="4"
           placeholder="new name..."
@@ -128,6 +135,7 @@ const RecipeEditor = (props) => {
             type="number"
             name="prepTimeMinutes"
             className="prepTimeInput marginleft"
+            tabIndex="2"
             placeholder="None"
             value={recipeBody.prepTimeMinutes}
             onChange={recipeChanged} />
@@ -138,6 +146,7 @@ const RecipeEditor = (props) => {
             type="text"
             name="instructions"
             className="instructionsInput marginleft"
+            tabIndex="3"
             placeholder="None"
             value={recipeBody.instructions}
             onChange={recipeChanged} />
@@ -175,7 +184,8 @@ RecipeEditor.defaultProps = {
     name: '',
     prepTimeMinutes: '',
     instructions: '',
-    ingredients: undefined
+    ingredients: undefined,
+    uniqueIngredient: 0
   }
 }
 

@@ -1,0 +1,22 @@
+{
+  "recipes": {
+    "recipe-test": {
+      "name": "Pie",
+      "prepTimeMinutes": 40,
+      "instructions": "Make a pie. It is so easy!",
+      "ingredients": {
+        "ingredienttest-1": {
+          "name": "Flower",
+          "amount": 2,
+          "unit": "CUP"
+        },
+        "ingredienttest-3": {
+          "name": "Apples",
+          "amount": 5,
+          "unit": "NONE"
+        }
+      },
+      "isEditing": false
+    }
+  }
+}

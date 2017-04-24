@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {uniqueId} from 'lodash'
 import Recipe from '../Stateless/Recipe'
 import RecipeEditor from '../Stateless/RecipeEditor'
 
@@ -11,6 +10,7 @@ Recipe Book Component that holds recipe states and renders their views
 recives:
 onEncryptRecipes: PropTypes.func, (not implemented yet)
 recipes: PropTypes.object
+lastUniqueId: PropTypes.number
 
 */
 class RecipeBook extends React.Component {
@@ -20,7 +20,8 @@ class RecipeBook extends React.Component {
     this.state = {
       recipes: this.props.recipes || {},
       recipeOpen: 'recipe-test',
-      recipeEditing: undefined
+      recipeEditing: undefined,
+      lastUniqueId: this.props.lastUniqueId || 0
     }
 
     this.addRecipeClicked = this.addRecipeClicked.bind(this);
@@ -29,6 +30,12 @@ class RecipeBook extends React.Component {
     this.handleRecipeEditing = this.handleRecipeEditing.bind(this);
     this.handleRecipeSubmited = this.handleRecipeSubmited.bind(this);
     this.handleRecipeDeleted = this.handleRecipeDeleted.bind(this);
+  }
+
+  componentDidUpdate(nextProps, nextState) {
+    if(!this.state.recipeEditing){
+      localStorage.setItem("RecipeBookCreatedByJakeTegtmeier", JSON.stringify(this.state))
+    }
   }
 
   //set state of updated recipe
@@ -50,12 +57,15 @@ class RecipeBook extends React.Component {
 
   //set state of new emptey recipe added
   addRecipeClicked() {
-    const newRecipeId = uniqueId('recipe-')
-    this.handleRecipeUpdated(newRecipeId)
-    this.setState({
-      recipeOpen: newRecipeId,
-      recipeEditing: newRecipeId
-    })
+    if(!this.state.recipeEditing){
+      const newRecipeId =  "recipe-" + (1 + this.state.lastUniqueId)
+      this.handleRecipeUpdated(newRecipeId)
+      this.setState({
+        recipeOpen: newRecipeId,
+        recipeEditing: newRecipeId,
+        lastUniqueId: (this.state.lastUniqueId + 1)
+      })
+    }
   }
 
   //set state of recipe currently being viewed
@@ -78,7 +88,7 @@ class RecipeBook extends React.Component {
     delete updatedRecipeBook[recipeId]
     this.setState({
       recipes: {...updatedRecipeBook},
-      recipeEditing: recipeId
+      recipeEditing: undefined
     })
   }
 
@@ -127,7 +137,8 @@ class RecipeBook extends React.Component {
 
 RecipeBook.propTypes = {
   onEncryptRecipes: PropTypes.func,
-  recipes: PropTypes.object
+  recipes: PropTypes.object,
+  lastUniqueId: PropTypes.number
 }
 
 export default RecipeBook;

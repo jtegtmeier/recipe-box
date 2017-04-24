@@ -58,7 +58,7 @@ select {
   width: 90vw;
   max-width: 700px;
   padding-bottom: 2vh;
-  background: rgb(209, 203, 228);
+  background: rgb(207, 210, 221);
   overflow: hidden;
 }
 
@@ -87,7 +87,7 @@ select {
   flex-flow: row;
   justify-content: space-between;
   align-items: center;
-  background: rgb(129, 114, 177);
+  background: rgb(114, 126, 177);
 }
 
 .recipeName {

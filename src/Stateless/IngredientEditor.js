@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import unitTypes from '../Settings/ingredientUnitTypes'
 
-const Ingredient = (props) => {
+const IngredientEditor = (props) => {
   const ingredientBody = props.ingredientBody
 
   function deleteIngredientClicked(evt){
@@ -34,6 +34,7 @@ const Ingredient = (props) => {
         name="name"
         required="required"
         pattern=".*\w+.*"
+        autoFocus="autoFocus"
         onChange={ingredientChanged}/>
       </td>
       <td>
@@ -61,7 +62,7 @@ const Ingredient = (props) => {
   )
 }
 
-Ingredient.propTypes = {
+IngredientEditor.propTypes = {
   id: PropTypes.string.isRequired,
   ingredientBody: PropTypes.object,
   isEditing: PropTypes.bool,
@@ -69,7 +70,7 @@ Ingredient.propTypes = {
   onUpdate: PropTypes.func
 }
 
-Ingredient.defaultProps = {
+IngredientEditor.defaultProps = {
   ingredientBody: {
     name: '',
     amount: '',
@@ -77,4 +78,4 @@ Ingredient.defaultProps = {
   }
 }
 
-export default Ingredient
+export default IngredientEditor

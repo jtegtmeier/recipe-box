@@ -4,8 +4,16 @@ import '../Style/App.css'
 import '../../node_modules/font-awesome/css/font-awesome.min.css'
 
 import RecipeBook from './RecipeBook'
+import sampleRecipeBook from '../Settings/SampleRecipeBook.json'
 
 export default class App extends React.Component {
+  constructor(){
+    super()
+    this.savedRecipeBook = JSON.parse(
+      localStorage.getItem("RecipeBookCreatedByJakeTegtmeier")
+    ) || sampleRecipeBook
+  }
+
   encryptRecipeBook(password) {
     this.setState({
       encrypted: true,
@@ -21,33 +29,13 @@ export default class App extends React.Component {
   }
 
   render() {
-
-    const sample = {
-      'recipe-test': {
-        name: 'Pie',
-        prepTimeMinutes: 40,
-        instructions: 'Make a pie. It is so easy!',
-        ingredients: {
-          'ingredienttest-1': {
-            name: 'Flower',
-            amount: 2,
-            unit: 'CUP'
-          },
-          'ingredienttest-3': {
-            name: 'Apples',
-            amount: 5,
-            unit: 'NONE'
-          }
-        },
-        isEditing: false
-      }
-    }
     return (
       <div className="App">
-        <header>Recipe Book App</header>
+        <header>Recipe Book</header>
 
         <RecipeBook
-          recipes={sample}
+          recipes={this.savedRecipeBook.recipes}
+          lastUniqueId={this.savedRecipeBook.lastUniqueId}
           onEncryptRecipes={this.encryptRecipeBook}/>
 
         <div className="Crypto" hidden="hidden">

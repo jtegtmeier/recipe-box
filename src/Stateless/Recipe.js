@@ -47,9 +47,8 @@ const Recipe = (props) => {
       <li key={ingredient}>
         <div>{ingredientBody.name + " "
             + ingredientBody.amount + " "
-            + (ingredientBody.unit ? unitTypes[ingredientBody.unit] : "")
-            + (ingredientBody.unit !== 'NONE' && ingredientBody.amount > 0 ?
-            "s" : "")}
+            + (unitTypes[ingredientBody.unit] ? unitTypes[ingredientBody.unit] : "")
+            + ((unitTypes[ingredientBody.unit] && ingredientBody.amount > 1) ? "s" : "")}
         </div>
       </li>
     )
