@@ -1,5 +1,5 @@
 import React from 'react'
-//import cyrpto from 'cyrpto-js'
+import randomcolor from 'randomcolor'
 import '../Style/App.css'
 import '../../node_modules/font-awesome/css/font-awesome.min.css'
 
@@ -12,6 +12,21 @@ export default class App extends React.Component {
     this.savedRecipeBook = JSON.parse(
       localStorage.getItem("RecipeBookCreatedByJakeTegtmeier")
     ) || sampleRecipeBook
+
+    this.headerText = "Recipe Book"
+    this.headerColors = randomcolor({
+      count: this.headerText.length,
+      luminosity: 'bright',
+      seed: 15
+      })
+    console.log(this.headerColors)
+    this.headerColorText = this.headerColors.map((v,i)=>{
+      return (
+        <span key={i} style={{color: v}}>
+          {this.headerText[i]}
+        </span>
+      )
+    })
   }
 
   encryptRecipeBook(password) {
@@ -29,9 +44,10 @@ export default class App extends React.Component {
   }
 
   render() {
+    console.log(this.headerColorText)
     return (
       <div className="App">
-        <header>Recipe Book</header>
+        <header>{this.headerColorText}</header>
 
         <RecipeBook
           recipes={this.savedRecipeBook.recipes}

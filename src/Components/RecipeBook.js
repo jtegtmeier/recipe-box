@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Recipe from '../Stateless/Recipe'
 import RecipeEditor from '../Stateless/RecipeEditor'
+import '../Style/RecipeBook.css'
 
 
 /*
@@ -126,10 +127,10 @@ class RecipeBook extends React.Component {
     return (
       <div className="RecipeBook">
         {recipes}
-        <button className="btn addRecipe"
+        <div className="btn btnAdd"
           onClick={this.addRecipeClicked}>
-          <i className="fa fa-plus-square-o" aria-hidden="true"></i> Add Recipe
-        </button>
+          <i className="fa fa-plus-square-o" aria-hidden="true"></i> Recipe
+        </div>
       </div>
     )
   }

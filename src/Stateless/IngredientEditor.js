@@ -53,10 +53,10 @@ const IngredientEditor = (props) => {
       </select>
       </td>
       <td>
-      <button className="btn deleteIngredient"
+      <div className="btn btnDelete"
         onClick={deleteIngredientClicked}>
         <i className="fa fa-trash-o" aria-hidden="true"></i>
-      </button>
+      </div>
       </td>
     </tr>
   )

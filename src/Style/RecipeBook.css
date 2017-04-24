@@ -2,8 +2,27 @@
   display: flex;
   flex: 1;
   flex-flow: column;
+  justify-content: center;
   align-items: center;
   padding-top: 10px;
+  width: 100vw;
+  box-shadow: inset 0 0 30vw black;
+}
+
+h3 {
+  margin: 1vh 0;
+}
+
+.Recipe {
+  width: 90vw;
+  max-width: 700px;
+  background: rgb(222, 226, 240);
+  overflow: hidden;
+  border-bottom: 2px solid black;
+}
+
+.marginleft {
+  margin-left: 2vw;
 }
 
 .minimize {
@@ -15,6 +34,56 @@
 .maximize {
   max-height: 1000px;
   transition: all 0.5s;
+}
+
+.Recipe:first-of-type {
+  margin-top: 2vh;
+  border-bottom: 2px solid black;
+  border-radius: 10px 10px 0 0;
+}
+
+.Recipe:last-of-type {
+  margin-bottom: 1vh;
+  border-radius: 0 0 10px 10px;
+  border-bottom: none;
+}
+
+.Recipe:only-of-type {
+  border-radius: 10px;
+}
+
+.Recipe>div {
+  padding: 0 1vh 0 3vh;
+}
+
+.prepTimeInput {
+  width: 40px;
+}
+
+.recipeHead {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  background: rgb(114, 126, 177);
+  font-family: 'Indie Flower', cursive;
+  font-weight: bold;
+}
+
+.recipeHead:hover {
+  cursor: pointer;
+}
+
+.recipeName {
+  font-size: 2em;
+  flex: 1;
+  color: black
+}
+
+textarea {
+  width: 90%;
+  height: 50px;
+  resize: vertical;
 }
 
 input, select, textarea {
@@ -32,74 +101,41 @@ input:required:invalid, input:focus:invalid {
   box-shadow: inset 0 0 5px 1px red;
 }
 
-button {
-  font-size: 1.5em;
-  margin: 1px;
-}
-
-h3 {
-  margin: 1vh 0;
-}
-
-.addRecipe {
-  margin: 1.5vh 0;
-}
-
-.marginleft {
-  margin-left: 2vw;
-}
-
 select {
   width: 80px;
   color: black;
 }
 
-.Recipe {
-  width: 90vw;
-  max-width: 700px;
-  padding-bottom: 2vh;
-  background: rgb(207, 210, 221);
-  overflow: hidden;
+.btn {
+  display: inline-block;
+  font-size: 1.5em;
+  margin: 0.2vw;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 0 0 10px grey;
 }
 
-.prepTimeInput {
-  width: 40px;
+.btn:hover {
+  box-shadow: inset 0 0 0 100px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
 
-.Recipe:first-of-type {
-  border-radius: 10px 10px 0 0;
+.btnDelete {
+  background: rgb(232, 83, 57);
 }
 
-.Recipe:last-of-type {
-  border-radius: 0 0 10px 10px;
+.btnAdd {
+  background: rgb(98, 122, 223);
+  margin: 1.5vh 0;
 }
 
-.Recipe:only-of-type {
-  border-radius: 10px;
+.btnEdit {
+  background: rgb(72, 178, 230)
 }
 
-.Recipe>div {
-  padding: 0 3vh;
-}
-
-.recipeHead {
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-  align-items: center;
-  background: rgb(114, 126, 177);
-}
-
-.recipeName {
-  font-size: 2em;
-  flex: 1;
-  color: black
-}
-
-textarea {
-  width: 90%;
-  height: 50px;
-  resize: vertical;
+.btnSubmit {
+  background: rgb(127, 194, 110);
 }
 
 .ingredientName {
@@ -112,4 +148,9 @@ textarea {
 
 .ingredientUnitType {
   width: 80px;
+}
+
+table {
+  text-align: center;
+  vertical-align: middle;
 }

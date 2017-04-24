@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import unitTypes from '../Settings/ingredientUnitTypes'
-import '../Style/RecipeBook.css'
 
 /*
 Static recipe that is either shown or minimized
@@ -58,15 +57,15 @@ const Recipe = (props) => {
     <form className="Recipe">
       <div className="recipeHead" onClick={recipeClicked}>
         <div className="recipeName">{recipeBody.name}</div>
-        <button className="btn editRecipe"
+        <div className="btn btnEdit"
           name="btnEditRecipe"
           onClick={editClicked}>
           Edit
-        </button>
-        <button className="btn deleteRecipe"
+        </div>
+        <div className="btn btnDelete"
           onClick={deleteRecipeClicked}>
           <i className="fa fa-trash-o" aria-hidden="true"></i>
-        </button>
+        </div>
       </div>
       <div className={style.isMinimized}>
         <div>

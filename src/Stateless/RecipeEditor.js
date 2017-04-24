@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import IngredientEditor from './IngredientEditor'
-import '../Style/RecipeBook.css'
 
 /*
 Static recipe editing component that sends updates on recipes to the RecipeBook
@@ -118,15 +117,15 @@ const RecipeEditor = (props) => {
           placeholder="new name..."
           value={recipeBody.name}
           onChange={recipeChanged} />
-        <button className="btn submitRecipe"
+        <div className="btn btnSubmit"
           name="btnSubmitRecipe"
           onClick={submitRecipeEvent}>
           <i className="fa fa-check" aria-hidden="true"></i>
-        </button>
-        <button className="btn deleteRecipe"
+        </div>
+        <div className="btn btnDelete"
           onClick={deleteRecipeClicked}>
           <i className="fa fa-trash-o" aria-hidden="true"></i>
-        </button>
+        </div>
       </div>
       <div>
         <div>
@@ -161,10 +160,11 @@ const RecipeEditor = (props) => {
               {ingredients}
             </tbody>
           </table>
-          <button className="btn addIngredient marginleft"
+          <div className="btn btnAdd marginleft"
             onClick={addIngredient}>
-            <i className="fa fa-plus-square-o" aria-hidden="true"></i> Add Ingredient
-          </button>
+            <i className="fa fa-plus-square-o" aria-hidden="true">
+            </i> Ingredient
+          </div>
         </div>
       </div>
     </form>
