@@ -2,55 +2,124 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {uniqueId} from 'lodash'
 import Recipe from '../Stateless/Recipe'
+import RecipeEditor from '../Stateless/RecipeEditor'
 
+
+/*
+Recipe Book Component that holds recipe states and renders their views
+
+recives:
+onEncryptRecipes: PropTypes.func, (not implemented yet)
+recipes: PropTypes.object
+
+*/
 class RecipeBook extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = this.props.recipes || {}
+    this.state = {
+      recipes: this.props.recipes || {},
+      recipeOpen: 'recipe-test',
+      recipeEditing: undefined
+    }
 
-    this.updateRecipe = this.updateRecipe.bind(this);
     this.addRecipeClicked = this.addRecipeClicked.bind(this);
-    this.deleteRecipe = this.deleteRecipe.bind(this);
+    this.handleRecipeClicked = this.handleRecipeClicked.bind(this);
+    this.handleRecipeUpdated = this.handleRecipeUpdated.bind(this);
+    this.handleRecipeEditing = this.handleRecipeEditing.bind(this);
+    this.handleRecipeSubmited = this.handleRecipeSubmited.bind(this);
+    this.handleRecipeDeleted = this.handleRecipeDeleted.bind(this);
   }
 
-  updateRecipe(RecipeId, updatedRecipe){
+  //set state of updated recipe
+  handleRecipeUpdated(RecipeId, updatedRecipe){
     this.setState({
-      [RecipeId]: updatedRecipe
+      recipes: {
+        ...this.state.recipes,
+        [RecipeId]: updatedRecipe
+      }
     })
   }
 
-  addRecipeClicked() {
-    this.updateRecipe(uniqueId('recipe-'))
+  //set state of recipe submited (not being edited)
+  handleRecipeSubmited(){
+    this.setState({
+      recipeEditing: undefined
+    })
   }
 
-  deleteRecipe(recipeId) {
-    const updatedRecipeBook = this.state
+  //set state of new emptey recipe added
+  addRecipeClicked() {
+    const newRecipeId = uniqueId('recipe-')
+    this.handleRecipeUpdated(newRecipeId)
+    this.setState({
+      recipeOpen: newRecipeId,
+      recipeEditing: newRecipeId
+    })
+  }
+
+  //set state of recipe currently being viewed
+  handleRecipeClicked(recipeId){
+    this.setState({
+      recipeOpen: recipeId,
+    })
+  }
+
+  //set state of recipe currently being edited
+  handleRecipeEditing(recipeId){
+    this.setState({
+      recipeEditing: recipeId
+    })
+  }
+
+  //set state of recipe deleted
+  handleRecipeDeleted(recipeId) {
+    const updatedRecipeBook = this.state.recipes
     delete updatedRecipeBook[recipeId]
     this.setState({
-      ...updatedRecipeBook
+      recipes: {...updatedRecipeBook},
+      recipeEditing: recipeId
     })
   }
 
   render() {
     let recipes = []
-    for(const recipe in this.state){
-      recipes.push(
-        <Recipe className="Recipe"
-          key={recipe}
-          id={recipe}
-          recipeBody={this.state[recipe]}
-          onDelete={this.deleteRecipe}
-          onUpdate={this.updateRecipe}
-        />
+    const recipeToEdit = (recipe) =>
+      <RecipeEditor
+        key={recipe}
+        id={recipe}
+        recipeBody={this.state.recipes[recipe]}
+        onDeleteClicked={this.handleRecipeDeleted}
+        onRecipeUpdated={this.handleRecipeUpdated}
+        onSubmitClicked={this.handleRecipeSubmited}
+        isOpen={recipe === this.state.recipeOpen}
+      />
+
+    const recipeToShow = (recipe) =>
+      <Recipe
+        key={recipe}
+        id={recipe}
+        recipeBody={this.state.recipes[recipe]}
+        onDeleteClicked={this.handleRecipeDeleted}
+        onEditClicked={this.handleRecipeEditing}
+        onRecipeClicked={this.handleRecipeClicked}
+        isOpen={recipe === this.state.recipeOpen}
+      />
+
+    for(const recipe in this.state.recipes){
+      recipes.push(recipe === this.state.recipeEditing ?
+        recipeToEdit(recipe) :
+        recipeToShow(recipe)
       )
     }
 
     return (
-      <div>
+      <div className="RecipeBook">
         {recipes}
         <button className="btn addRecipe"
-          onClick={this.addRecipeClicked}>Add Recipe</button>
+          onClick={this.addRecipeClicked}>
+          <i className="fa fa-plus-square-o" aria-hidden="true"></i> Add Recipe
+        </button>
       </div>
     )
   }

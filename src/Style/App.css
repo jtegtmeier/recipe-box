@@ -1,24 +1,24 @@
 .App {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   flex-flow: column;
-  justify-content: space-between;
   align-items: center;
+  background: rgb(130, 140, 110);
 }
 
 header {
-  font-size: 2em;
+  width: 100vw;
+  text-align: center;
+  font-size: 2.5em;
+  font-weight: bold;
+  padding: 2vh 0;
+  background: rgb(168, 155, 93);
 }
 
 footer {
+  width: 100vw;
+  padding: 2vh 0;
+  text-align: center;
   font-size: 1.5em;
-}
-
-.viewonly input, .viewonly select {
-  border: none;
-  appearance: none;
-}
-
-input:disabled {
-  background: none;
+  background: rgb(172, 80, 132);
 }

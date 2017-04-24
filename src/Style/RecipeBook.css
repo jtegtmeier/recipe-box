@@ -1,0 +1,115 @@
+.RecipeBook {
+  display: flex;
+  flex: 1;
+  flex-flow: column;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.minimize {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+
+.maximize {
+  max-height: 1000px;
+  transition: all 0.5s;
+}
+
+input, select, textarea {
+  appearance: none;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+input:disabled, select:disabled {
+  background: none;
+}
+
+input:required:invalid, input:focus:invalid {
+  box-shadow: inset 0 0 5px 1px red;
+}
+
+button {
+  font-size: 1.5em;
+  margin: 1px;
+}
+
+h3 {
+  margin: 1vh 0;
+}
+
+.addRecipe {
+  margin: 1.5vh 0;
+}
+
+.marginleft {
+  margin-left: 2vw;
+}
+
+select {
+  width: 80px;
+  color: black;
+}
+
+.Recipe {
+  width: 90vw;
+  max-width: 700px;
+  padding-bottom: 2vh;
+  background: rgb(209, 203, 228);
+  overflow: hidden;
+}
+
+.prepTimeInput {
+  width: 40px;
+}
+
+.Recipe:first-of-type {
+  border-radius: 10px 10px 0 0;
+}
+
+.Recipe:last-of-type {
+  border-radius: 0 0 10px 10px;
+}
+
+.Recipe:only-of-type {
+  border-radius: 10px;
+}
+
+.Recipe>div {
+  padding: 0 3vh;
+}
+
+.recipeHead {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  background: rgb(129, 114, 177);
+}
+
+.recipeName {
+  font-size: 2em;
+  flex: 1;
+  color: black
+}
+
+textarea {
+  width: 90%;
+  height: 50px;
+  resize: vertical;
+}
+
+.ingredientName {
+  width: 80px;
+}
+
+.ingredientAmount {
+  width: 30px;
+}
+
+.ingredientUnitType {
+  width: 80px;
+}

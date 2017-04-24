@@ -26,41 +26,47 @@ const Ingredient = (props) => {
   }
 
   return (
-    <div>
+    <tr>
+      <td>
       <input type="text"
         className="ingredientName"
         value={ingredientBody.name}
         name="name"
-        {...(props.isEditing ? {} : {disabled: "disabled"})}
+        required="required"
+        pattern=".*\w+.*"
         onChange={ingredientChanged}/>
-      <input type="text"
-        className="ingredientValue"
+      </td>
+      <td>
+      <input type="number"
+        className="ingredientAmount"
         value={ingredientBody.amount}
         name="amount"
-        {...(props.isEditing ? {} : {disabled: "disabled"})}
         onChange={ingredientChanged}/>
+      </td>
+      <td>
       <select className="ingredientUnitType"
         value={ingredientBody.unit}
         name="unit"
-        {...(props.isEditing ? {} : {disabled: "disabled"})}
         onChange={ingredientChanged}>
         {options}
       </select>
+      </td>
+      <td>
       <button className="btn deleteIngredient"
-        onClick={deleteIngredientClicked}
-        {...(props.isEditing ? {} : {hidden: "hidden"})}>
-        Delete Ingredient
+        onClick={deleteIngredientClicked}>
+        <i className="fa fa-trash-o" aria-hidden="true"></i>
       </button>
-    </div>
+      </td>
+    </tr>
   )
 }
 
 Ingredient.propTypes = {
   id: PropTypes.string.isRequired,
   ingredientBody: PropTypes.object,
-  isEditing: PropTypes.bool.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired
+  isEditing: PropTypes.bool,
+  onDelete: PropTypes.func,
+  onUpdate: PropTypes.func
 }
 
 Ingredient.defaultProps = {

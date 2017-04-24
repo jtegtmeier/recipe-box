@@ -1,137 +1,103 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {uniqueId} from 'lodash'
-import Ingredient from './Ingredient'
+import unitTypes from '../Settings/ingredientUnitTypes'
+import '../Style/RecipeBook.css'
 
+/*
+Static recipe that is either shown or minimized
+
+recives:
+id: PropTypes.string.isRequired,
+recipeBody: PropTypes.object,
+onDeleteClicked: PropTypes.func.isRequired,
+onEditClicked: PropTypes.func.isRequired,
+onRecipeClicked: PropTypes.func.isRequired,
+isOpen: PropTypes.bool
+
+*/
 const Recipe = (props) => {
   const recipeBody = props.recipeBody
-
-  function recipeChanged(evt){
-    evt.preventDefault()
-    props.onUpdate(props.id, {
-      ...recipeBody,
-      [evt.target.name]: evt.target.value
-    })
+  const style = {
+    isMinimized: props.isOpen ? " maximize" : " minimize"
   }
 
-  function updateIngredients(updatedIngredients) {
-    props.onUpdate(props.id, {
-      ...recipeBody,
-      ingredients: updatedIngredients
-    })
-  }
-
-  function ingredientChanged(ingredientId, updatedIngredient){
-    updateIngredients({
-      ...recipeBody.ingredients,
-      [ingredientId]: updatedIngredient
-    })
-  }
-
-  function addIngredient(evt){
-    evt.preventDefault()
-    ingredientChanged(uniqueId('ingredient-'))
-  }
-
-  function deleteIngredient(ingredientID){
-    const updatedIngredients = recipeBody.ingredients
-    delete updatedIngredients[ingredientID]
-    updateIngredients(updatedIngredients)
-  }
-
-  function editingToggle(evt){
-    evt.preventDefault()
-    props.onUpdate(props.id, {
-      ...recipeBody,
-      isEditing: !recipeBody.isEditing
-    })
-  }
-
+  //send redipe deleted to RecipeBook
   function deleteRecipeClicked(evt){
     evt.preventDefault()
-    props.onDelete(props.id)
+    props.onDeleteClicked(props.id)
   }
 
+  //send redipe edited to RecipeBook
+  function editClicked(evt){
+    evt.preventDefault()
+    props.onEditClicked(props.id)
+  }
+
+  //send redipe header clicked to RecipeBook
+  function recipeClicked(evt){
+    evt.preventDefault()
+    props.onRecipeClicked(props.id)
+  }
+
+  //create array of ingredients from props
   let ingredients = []
   for(const ingredient in recipeBody.ingredients){
+    let ingredientBody = recipeBody.ingredients[ingredient]
     ingredients.push(
-      <Ingredient className="Ingredient"
-        key={ingredient}
-        id={ingredient}
-        ingredientBody={recipeBody.ingredients[ingredient]}
-        onDelete={deleteIngredient}
-        onUpdate={ingredientChanged}
-        isEditing={recipeBody.isEditing}
-      />
+      <li key={ingredient}>
+        <div>{ingredientBody.name + " "
+            + ingredientBody.amount + " "
+            + (ingredientBody.unit ? unitTypes[ingredientBody.unit] : "")
+            + (ingredientBody.unit !== 'NONE' && ingredientBody.amount > 0 ?
+            "s" : "")}
+        </div>
+      </li>
     )
   }
 
   return (
-    <div className={(recipeBody.isEditing ? "" : "viewonly")}>
-      <div className="recipeName">
-        <input
-          type="text"
-          name="name"
-          className="recipeInput"
-          placeholder="enter a new name..."
-          value={recipeBody.name}
-          {...(recipeBody.isEditing ? {} : {disabled: "disabled"})}
-          onChange={recipeChanged} />
-      </div>
-      <div>
-        <h4>Prep-time</h4>
-        <input
-          type="text"
-          name="prepTimeMinutes"
-          className="recipeInput"
-          placeholder="enter minutes for prep..."
-          value={recipeBody.prepTimeMinutes}
-          {...(recipeBody.isEditing ? {} : {disabled: "disabled"})}
-          onChange={recipeChanged} />
-      </div>
-      <div>
-        <h4>Instructions</h4>
-        <input
-          type="text"
-          name="instructions"
-          className="recipeInput"
-          placeholder="enter instructions..."
-          value={recipeBody.instructions}
-          {...(recipeBody.isEditing ? {} : {disabled: "disabled"})}
-          onChange={recipeChanged} />
-      </div>
-      <div>
-        <h4>Ingredients</h4>
-        {ingredients}
-        <button className="btn addIngredient"
-          onClick={addIngredient}
-          {...(recipeBody.isEditing ? {} : {hidden: "hidden"})}>
-          Add Ingredient
+    <form className="Recipe">
+      <div className="recipeHead" onClick={recipeClicked}>
+        <div className="recipeName">{recipeBody.name}</div>
+        <button className="btn editRecipe"
+          name="btnEditRecipe"
+          onClick={editClicked}>
+          Edit
+        </button>
+        <button className="btn deleteRecipe"
+          onClick={deleteRecipeClicked}>
+          <i className="fa fa-trash-o" aria-hidden="true"></i>
         </button>
       </div>
-      <button className="btn editRecipe"
-        name="btnEditRecipe"
-        onClick={editingToggle}
-        {...(recipeBody.isEditing ? {hidden: "hidden"} : {})}>
-        Edit Recipe
-      </button>
-      <button className="btn submitRecipe"
-        name="btnSubmitRecipe"
-        onClick={editingToggle}
-        {...(recipeBody.isEditing ? {} : {hidden: "hidden"})}>
-        Submit Recipe
-      </button>
-      <button className="btn deleteRecipe"
-        onClick={deleteRecipeClicked}>Delete Recipe</button>
-    </div>
+      <div className={style.isMinimized}>
+        <div>
+          <h3>Prep-time</h3>
+          <div className="prepTime marginleft">
+            {recipeBody.prepTimeMinutes + (recipeBody.prepTimeMinutes ? " Minutes" : "")}
+          </div>
+        </div>
+        <div>
+          <h3>Instructions</h3>
+          <div className="instructions marginleft">{recipeBody.instructions}</div>
+        </div>
+        <div>
+          <h3>Ingredients</h3>
+          <ul>
+            {ingredients}
+          </ul>
+        </div>
+      </div>
+    </form>
   )
 }
 
 Recipe.propTypes = {
   id: PropTypes.string.isRequired,
   recipeBody: PropTypes.object,
-  onDelete: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onDeleteClicked: PropTypes.func.isRequired,
+  onEditClicked: PropTypes.func.isRequired,
+  onRecipeClicked: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool
 }
 
 Recipe.defaultProps = {
@@ -139,8 +105,7 @@ Recipe.defaultProps = {
     name: '',
     prepTimeMinutes: '',
     instructions: '',
-    ingredients: undefined,
-    isEditing: true
+    ingredients: undefined
   }
 }
 

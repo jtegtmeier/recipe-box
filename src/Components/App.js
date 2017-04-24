@@ -1,6 +1,7 @@
 import React from 'react'
 //import cyrpto from 'cyrpto-js'
 import '../Style/App.css'
+import '../../node_modules/font-awesome/css/font-awesome.min.css'
 
 import RecipeBook from './RecipeBook'
 
@@ -20,6 +21,7 @@ export default class App extends React.Component {
   }
 
   render() {
+
     const sample = {
       'recipe-test': {
         name: 'Pie',
@@ -27,12 +29,12 @@ export default class App extends React.Component {
         instructions: 'Make a pie. It is so easy!',
         ingredients: {
           'ingredienttest-1': {
-            name: 'flower',
+            name: 'Flower',
             amount: 2,
             unit: 'CUP'
           },
           'ingredienttest-3': {
-            name: 'apple',
+            name: 'Apples',
             amount: 5,
             unit: 'NONE'
           }
@@ -42,9 +44,9 @@ export default class App extends React.Component {
     }
     return (
       <div className="App">
-        <header>Header</header>
+        <header>Recipe Book App</header>
 
-        <RecipeBook className="RecipeBook"
+        <RecipeBook
           recipes={sample}
           onEncryptRecipes={this.encryptRecipeBook}/>
 
@@ -59,7 +61,7 @@ export default class App extends React.Component {
             <input type="text" className="inputPassword" placeholder="enter password to decrypt..."/>
           </div>
         </div>
-        <footer>Footer</footer>
+        <footer>By: Jacob Tegtmeier</footer>
       </div>
     )
   }
