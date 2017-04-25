@@ -18,12 +18,7 @@ class RecipeBook extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      recipes: this.props.recipes || {},
-      recipeOpen: 'recipe-test',
-      recipeEditing: undefined,
-      lastUniqueId: this.props.lastUniqueId || 0
-    }
+    this.state = this.props.savedRecipeBook
 
     this.addRecipeClicked = this.addRecipeClicked.bind(this);
     this.handleRecipeClicked = this.handleRecipeClicked.bind(this);
@@ -58,7 +53,7 @@ class RecipeBook extends React.Component {
 
   //set state of new emptey recipe added
   addRecipeClicked() {
-    if(!this.state.recipeEditing){
+    if(!this.recipeIsEditing()){
       const newRecipeId =  "recipe-" + (1 + this.state.lastUniqueId)
       this.handleRecipeUpdated(newRecipeId)
       this.setState({
@@ -71,16 +66,40 @@ class RecipeBook extends React.Component {
 
   //set state of recipe currently being viewed
   handleRecipeClicked(recipeId){
-    this.setState({
-      recipeOpen: recipeId,
-    })
+    if(!this.recipeIsEditing()){
+      this.setState({
+        recipeOpen: recipeId,
+      })
+    }
   }
 
   //set state of recipe currently being edited
   handleRecipeEditing(recipeId){
-    this.setState({
-      recipeEditing: recipeId
-    })
+    if(!this.recipeIsEditing()){
+      this.setState({
+        recipeEditing: recipeId
+      })
+    }
+  }
+
+  recipeIsEditing(){
+    if(this.state.recipeEditing){
+      this.setState({
+        alertEditing: true
+      })
+      setTimeout(()=>{
+        this.setState({
+          alertEditing: false
+        })
+      }, 500)
+      return true
+    }
+    else{
+      this.setState({
+        alertEditing: false
+      })
+      return false
+    }
   }
 
   //set state of recipe deleted
@@ -104,6 +123,7 @@ class RecipeBook extends React.Component {
         onRecipeUpdated={this.handleRecipeUpdated}
         onSubmitClicked={this.handleRecipeSubmited}
         isOpen={recipe === this.state.recipeOpen}
+        shouldAlert={this.state.alertEditing}
       />
 
     const recipeToShow = (recipe) =>
@@ -137,9 +157,15 @@ class RecipeBook extends React.Component {
 }
 
 RecipeBook.propTypes = {
-  onEncryptRecipes: PropTypes.func,
-  recipes: PropTypes.object,
-  lastUniqueId: PropTypes.number
+  savedRecipeBook: PropTypes.object
+}
+
+RecipeBook.defaultProps = {
+  savedRecipeBook: {
+    recipes: {},
+    isOpen: undefined,
+    isEditing: undefined
+  }
 }
 
 export default RecipeBook;

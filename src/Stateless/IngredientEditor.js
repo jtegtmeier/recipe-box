@@ -39,6 +39,7 @@ const IngredientEditor = (props) => {
       </td>
       <td>
       <input type="number"
+        min="0"
         className="ingredientAmount"
         value={ingredientBody.amount}
         name="amount"

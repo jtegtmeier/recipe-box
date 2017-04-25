@@ -1,10 +1,10 @@
 import React from 'react'
 import randomcolor from 'randomcolor'
-import '../Style/App.css'
-import '../../node_modules/font-awesome/css/font-awesome.min.css'
-
 import RecipeBook from './RecipeBook'
 import sampleRecipeBook from '../Settings/SampleRecipeBook.json'
+
+import '../Style/App.css'
+import '../../node_modules/font-awesome/css/font-awesome.min.css'
 
 export default class App extends React.Component {
   constructor(){
@@ -48,10 +48,7 @@ export default class App extends React.Component {
       <div className="App">
         <header>{this.headerColorText}</header>
 
-        <RecipeBook
-          recipes={this.savedRecipeBook.recipes}
-          lastUniqueId={this.savedRecipeBook.lastUniqueId}
-          onEncryptRecipes={this.encryptRecipeBook}/>
+        <RecipeBook savedRecipeBook={this.savedRecipeBook}/>
 
         <div className="Crypto" hidden="hidden">
           <div className="Encrypt">
@@ -65,7 +62,7 @@ export default class App extends React.Component {
           </div>
         </div>
         <footer>
-          <div style={{fontSize: "0.8em"}}>Recipies Stored in Browser untill you clear site history.</div>
+          <div style={{fontSize: "0.8em"}}>Recipies stored in browser until you clear site history.</div>
           By: Jacob Tegtmeier
         </footer>
       </div>

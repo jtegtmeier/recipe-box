@@ -101,8 +101,14 @@ const RecipeEditor = (props) => {
     )
   }
 
+  const showAlertStyle = (shouldAlert)=>{
+    return shouldAlert ?
+      {background: "rgb(224, 160, 160)", transition: "all 0.2s"}
+      : {transition: "all 0.2s"}
+  }
+
   return (
-    <form className="Recipe"
+    <form className="Recipe" style={showAlertStyle(props.shouldAlert)}
       onSubmit={submitRecipeEvent}>
       <div className="recipeHead">
         <input
@@ -112,12 +118,13 @@ const RecipeEditor = (props) => {
           pattern=".*\w+.*"
           autoFocus="autoFocus"
           tabIndex="1"
-          className="recipeInput recipeName"
+          className="recipeName"
           size="4"
-          placeholder="new name..."
+          placeholder="recipe name..."
           value={recipeBody.name}
           onChange={recipeChanged} />
         <div className="btn btnSubmit"
+          style={showAlertStyle(props.shouldAlert)}
           name="btnSubmitRecipe"
           onClick={submitRecipeEvent}>
           <i className="fa fa-check" aria-hidden="true"></i>
@@ -132,12 +139,13 @@ const RecipeEditor = (props) => {
           <h3>Prep-time</h3>
           <input
             type="number"
+            min="0"
             name="prepTimeMinutes"
             className="prepTimeInput marginleft"
             tabIndex="2"
             placeholder="None"
             value={recipeBody.prepTimeMinutes}
-            onChange={recipeChanged} />
+            onChange={recipeChanged} /> Minutes
         </div>
         <div>
           <h3>Instructions</h3>
@@ -176,7 +184,8 @@ RecipeEditor.propTypes = {
   recipeBody: PropTypes.object,
   onRecipeUpdated: PropTypes.func.isRequired,
   onDeleteClicked: PropTypes.func.isRequired,
-  onSubmitClicked: PropTypes.func.isRequired
+  onSubmitClicked: PropTypes.func.isRequired,
+  shouldAlert: PropTypes.bool
 }
 
 RecipeEditor.defaultProps = {

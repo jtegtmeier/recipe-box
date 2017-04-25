@@ -39,12 +39,12 @@ h3 {
 .Recipe:first-of-type {
   margin-top: 2vh;
   border-bottom: 2px solid black;
-  border-radius: 10px 10px 0 0;
+  border-radius: 5px 5px 0 0;
 }
 
 .Recipe:last-of-type {
   margin-bottom: 1vh;
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 5px 5px;
   border-bottom: none;
 }
 
@@ -54,10 +54,6 @@ h3 {
 
 .Recipe>div {
   padding: 0 1vh 0 3vh;
-}
-
-.prepTimeInput {
-  width: 40px;
 }
 
 .recipeHead {
@@ -75,9 +71,14 @@ h3 {
 }
 
 .recipeName {
-  font-size: 2em;
+  font-size: 1.5em;
   flex: 1;
   color: black
+}
+
+.prepTimeInput {
+  width: 10vw;
+  max-width: 50px;
 }
 
 textarea {
@@ -109,7 +110,8 @@ select {
 .btn {
   display: inline-block;
   font-size: 1.5em;
-  margin: 0.2vw;
+  text-align: center;
+  margin: 3px;
   padding: 2px 8px;
   border-radius: 4px;
   border: none;
@@ -123,6 +125,7 @@ select {
 
 .btnDelete {
   background: rgb(232, 83, 57);
+  flex: 0.1;
 }
 
 .btnAdd {
@@ -131,11 +134,13 @@ select {
 }
 
 .btnEdit {
-  background: rgb(72, 178, 230)
+  background: rgb(72, 178, 230);
+  flex: 0.1;
 }
 
 .btnSubmit {
   background: rgb(127, 194, 110);
+  flex: 0.1;
 }
 
 .ingredientName {
