@@ -1,6 +1,14 @@
 # FCC React Exercises - Recipe Box
 
-Online recipe box for adding, editing and viewing recipes.
+Online recipe box for adding, editing and viewing recipes. Recipes stored in browser HTML5 localStorage until cleared by the user.
+
+### Install and Run
+- `npm install`
+- `npm start`
+
+##### Run Tests
+
+- `npm test`
 
 ### App Links
 

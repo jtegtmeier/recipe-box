@@ -18,6 +18,8 @@ header {
 }
 
 footer {
+  display: flex;
+  flex-flow: column;
   width: 100vw;
   padding: 2vh 0;
   text-align: center;

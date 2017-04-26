@@ -15,11 +15,19 @@
     "react-dom": "^15.5.4"
   },
   "devDependencies": {
+    "babel-register": "^6.24.1",
+    "chai": "^3.5.0",
+    "enzyme": "^2.8.2",
+    "isparta": "^4.0.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.3.0",
+    "react-addons-test-utils": "^15.5.1",
     "react-scripts": "0.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "testM": "mocha src/Tests/RecipeBook.test.js --require babel-register",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

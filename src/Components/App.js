@@ -9,9 +9,9 @@ import '../../node_modules/font-awesome/css/font-awesome.min.css'
 export default class App extends React.Component {
   constructor(){
     super()
-    this.savedRecipeBook = JSON.parse(
-      localStorage.getItem("RecipeBookCreatedByJakeTegtmeier")
-    ) || sampleRecipeBook
+    window.localStorage?
+    this.savedRecipeBook = JSON.parse(localStorage.getItem("RecipeBookCreatedByJakeTegtmeier"))
+    :this.savedRecipeBook = sampleRecipeBook
 
     this.headerText = "Recipe Book"
     this.headerColors = randomcolor({
@@ -62,8 +62,13 @@ export default class App extends React.Component {
           </div>
         </div>
         <footer>
-          <div style={{fontSize: "0.8em"}}>Recipies stored in browser until you clear site history.</div>
-          By: Jacob Tegtmeier
+          <a href="https://github.com/jtegtmeier/recipe-box">
+            See on Github
+          </a>
+          <div style={{fontSize: "0.8em"}}>
+            Recipies stored in browser until you clear site history.
+          </div>
+          <div>By: <a href="https://github.com/jtegtmeier" >Jacob Tegtmeier</a></div>
         </footer>
       </div>
     )
