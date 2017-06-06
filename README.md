@@ -1,8 +1,8 @@
-# FCC React Exercises - Recipe Box
+# React Exercises - Recipe Box
 
 Online recipe box for adding, editing and viewing recipes. Recipes stored in browser HTML5 localStorage until cleared by the user.
 
-See it in action here [recipebook.tegtmeier.io](http://recipebook.tegtmeier.io/)
+#### See it in action here [recipebook.tegtmeier.io](http://recipebook.tegtmeier.io/)
 
 ![Recipe Book App](https://github.com/jtegtmeier/jake-tegtmeier-io/blob/master/app/img/RecipeBook.PNG?raw=true)
 
