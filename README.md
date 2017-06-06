@@ -2,6 +2,10 @@
 
 Online recipe box for adding, editing and viewing recipes. Recipes stored in browser HTML5 localStorage until cleared by the user.
 
+See it in action here [recipebook.tegtmeier.io](http://recipebook.tegtmeier.io/)
+
+![Recipe Book App](https://github.com/jtegtmeier/jake-tegtmeier-io/blob/master/app/img/RecipeBook.PNG?raw=true)
+
 ### Install and Run
 - `npm install`
 - `npm start`
@@ -10,12 +14,7 @@ Online recipe box for adding, editing and viewing recipes. Recipes stored in bro
 
 - `npm test`
 
-### App Links
-
-- [Build a Recipe Box](https://www.freecodecamp.com/challenges/build-a-recipe-box)
-
 ### User Stories
-(from the fcc website)
 
 - I can create recipes that have names and ingredients.
 - I can see an index view where the names of all the recipes are visible.
